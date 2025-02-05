@@ -4,7 +4,7 @@ setlocal enableextensions
 
 cd %~dp0
 
-SHADERC_VERSION=v2024.4
+set SHADERC_VERSION=v2024.4
 
 :: -- Check dependencies
 
