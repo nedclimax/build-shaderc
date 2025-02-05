@@ -44,7 +44,7 @@ pushd shaderc
 
 python utils\git-sync-deps
 cmake -Bbuild -DCMAKE_BUILD_TYPE=Release
-cmake --build build --parallel
+cmake --build build --parallel --config Release
 
 :: -- Package shaderc
 
