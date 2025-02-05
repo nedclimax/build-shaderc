@@ -1,0 +1,52 @@
+name: build-shaderc
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  
+  build:
+    runs-on: windows-2022
+    env:
+      SHADERC_VERSION: ${{ github.event.inputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Build Script
+        id: build
+        shell: cmd
+        run: call build.cmd
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: shaderc-${{ SHADERC_VERSION }}
+          path: shaderc-${{ SHADERC_VERSION }}.zip
+          if-no-files-found: error
+          compression-level: 0
+
+  release:
+    runs-on: ubuntu-24.04
+    needs: [info, build]
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}      
+      SHADERC_VERSION: ${{ github.event.inputs.version }}
+    steps:
+
+      - name: Create GitHub Release
+        run: |
+          echo ${SHADERC_VERSION}>>notes.txt
+          gh release create ${SHADERC_VERSION} -R "${GITHUB_REPOSITORY}" -t '${SHADERC_VERSION}' -F notes.txt
+
+      - name: Get Artifacts From Build Steps
+        uses: actions/download-artifact@v4
+        with:
+          pattern: shaderc-*.zip
+          merge-multiple: true
+
+      - name: Upload Artifacts to GitHub Release
+        run: gh release upload '${SHADERC_VERSION}' shaderc-*.zip -R "${GITHUB_REPOSITORY}"
