@@ -22,8 +22,8 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: shaderc-${{ SHADERC_VERSION }}
-          path: shaderc-${{ SHADERC_VERSION }}.zip
+          name: shaderc-${SHADERC_VERSION}
+          path: shaderc-${SHADERC_VERSION}.zip
           if-no-files-found: error
           compression-level: 0
 
