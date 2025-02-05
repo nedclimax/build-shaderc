@@ -29,7 +29,7 @@ jobs:
 
   release:
     runs-on: ubuntu-24.04
-    needs: [info, build]
+    needs: [build]
     permissions:
       contents: write
     env:
