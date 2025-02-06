@@ -8,8 +8,6 @@ jobs:
   
   build:
     runs-on: windows-2022
-    env:
-      SHADERC_VERSION: v2024.4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,8 +20,8 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: shaderc-$SHADERC_VERSION
-          path: shaderc-$SHADERC_VERSION.zip
+          name: shaderc-v2024.4
+          path: shaderc-v2024.4.zip
           if-no-files-found: error
           compression-level: 0
 
@@ -39,8 +37,8 @@ jobs:
 
       - name: Create GitHub Release
         run: |
-          echo ${SHADERC_VERSION}>>notes.txt
-          gh release create $SHADERC_VERSION -R "${GITHUB_REPOSITORY}" -t '$SHADERC_VERSION' -F notes.txt
+          echo v2024.4>>notes.txt
+          gh release create v2024.4 -R "${GITHUB_REPOSITORY}" -t 'v2024.4' -F notes.txt
 
       - name: Get Artifacts From Build Steps
         uses: actions/download-artifact@v4
@@ -49,4 +47,4 @@ jobs:
           merge-multiple: true
 
       - name: Upload Artifacts to GitHub Release
-        run: gh release upload '$SHADERC_VERSION' shaderc-*.zip -R "${GITHUB_REPOSITORY}"
+        run: gh release upload 'v2024.4' shaderc-*.zip -R "${GITHUB_REPOSITORY}"
