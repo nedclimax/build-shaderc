@@ -43,7 +43,7 @@ git clone --depth=1 --single-branch --no-tags https://github.com/google/shaderc 
 pushd shaderc
 
 python utils\git-sync-deps
-cmake -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake -Bbuild
 cmake --build build --parallel --config Release
 
 :: -- Package shaderc
